@@ -41,10 +41,11 @@ namespace AspNetCoreTodo
                     Configuration.GetConnectionString("DefaultConnection")));
             /*services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();*/
+            
             //TODO Fix to tutorial
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders().AddDefaultUI();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             //services.AddSingleton<ITodoItemService, FakeTodoItemService>();
