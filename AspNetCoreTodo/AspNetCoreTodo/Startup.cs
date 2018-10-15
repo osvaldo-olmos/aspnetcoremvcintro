@@ -26,19 +26,34 @@ namespace AspNetCoreTodo
 
         public IConfiguration Configuration { get; }
 
+
+        static void ConfigureOptions(CookiePolicyOptions options){
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+        }
+
+        void ConfigureDBOptions(DbContextOptionsBuilder options){
+                options.UseSqlite(
+                    Configuration.GetConnectionString("DefaultConnection"));
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
+            //TODO: Si no existiensen los lambdas, asi deberia inicializar
+            services.Configure<CookiePolicyOptions>(ConfigureOptions);
+            /*services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            });*/
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            //TODO: Si no existiensen los lambdas, asi deberia inicializar
+            services.AddDbContext<ApplicationDbContext>(this.ConfigureDBOptions);
+            /*services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")));*/
             /*services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();*/
             
